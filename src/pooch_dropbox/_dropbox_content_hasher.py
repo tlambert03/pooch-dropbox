@@ -32,9 +32,10 @@ if TYPE_CHECKING:
             """Update this object with `new_data`."""
 
 
-def hash_file(file: StrOrBytesPath, chunksize: int = 1024) -> str:
-    hasher = DropboxContentHasher()
+def db_content_hash(file: StrOrBytesPath, chunksize: int = 1024) -> str:
+    """Return the content hash of a file using the same algorithm as Dropbox."""
     with open(file, "rb") as f:
+        hasher = DropboxContentHasher()
         while chunk := f.read(chunksize):
             hasher.update(chunk)
     return hasher.hexdigest()
